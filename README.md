@@ -1,9 +1,9 @@
 # SSMDemo
- SSMDemo
-
----Spring---
+# ---Spring--- 
 
 1.建置Maven,pom相關配置
+
+報錯!!
 
 1-1. build path entries are missing 
 
@@ -56,13 +56,13 @@
 
 
 
-4.
+4. Java junitTest
+
+```
+
+```
 
 Spring中載入xml配置檔案的常用的幾種方式
-
-
-
-
 
 **// ClassPathXmlApplicationContext 是读取 src 目录下的配置文件**
 ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -72,13 +72,77 @@ ApplicationContext context = new FileSystemXmlApplicationContext("WebRoot/WEB-IN
 
 
 
+# ---Spring MVC--- 
 
 
 
 
-run as maven build -> tomcat:run 
 
-http://127.0.0.1:8186/hI   即可跳轉到頁面
+1. pom
+
+   添加相關依賴
+
+   ```java
+
+   ```
+
+   ​
+
+2. web.xml
+
+   DispatcherServlet配置
+
+   ​	DispatcherServlet前
+
+   ```java
+
+   ```
+
+   端控制器,攔截請求分給目標controller處理
+
+   ​
+
+3. spring-mvc.xml
+
+   3.1<context:component-scan 自動掃描
+
+   3.2<mvc:annotation-driven 自動註冊 RequestMappingHandlerAdapter、		RequestMappingHandlerMapping: 
+
+   HandlerMapping的作用處理 @RequestMapping 註解，並將其註冊到請求對映表中。
+
+   HandlerAdapter的作用則是處理請求的介面卡，確定呼叫哪個類的哪個方法，並且構造方法引數，返回					值。自動為我們將掃描到的 @Component，@Controller，@Service，@Repository等註解標記的元件註冊				到工廠中，來處理我們的請求。
+
+   3.3視圖解析器 控制層回傳的字串+前後綴=jsp 
+
+   ```java
+
+   ```
+
+   ​
+
+4. Controller 控制器
+
+   @Controller
+
+   @RequestMapping("/HI")
+
+   @GetMapping("/haha")
+
+   ```java
+
+   ```
+
+   ​
+
+5. 對專案
+
+   run as maven build -> tomcat:run 、 source -> add
+
+   run as configurations -> run
+
+   網址列http://127.0.0.1:8186/HI/haha  即可跳轉到hi.jsp
+
+   ​
 
 
 
