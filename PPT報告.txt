@@ -1,0 +1,26 @@
+Maven
+	Library dependency
+	Maven profile
+	Multi-module
+	Maven plugin
+
+Spring & SpringMVC
+	Spring
+		核心容器(Core Container)
+		AOP(Aspect 導向程式設計)
+		WEB
+	SpringMVC
+		SpringMVC(lifecycle)
+		DispatcherServlet
+		servlet-context
+
+mybatis
+
+redis
+
+Jpa
+	
+Quartz 
+	Lifecycle
+Tomcat
+
