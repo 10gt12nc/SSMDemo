@@ -93,20 +93,69 @@ Member、Control、Platform，tomcat插件:定義路徑、Port號
 
  
 
-<h1>CH3.Spring核心IOC與AOP</h1>--3.1 Spring IOC和DI 38
+<h1>CH3.Spring核心IOC與AOP</h1>
 
-3.1.1 Spring IOC和DI概述 38
-3.1.2 單例模式 39
-3.1.3 Spring單例模式源碼解析 45
-3.1.4 簡單工廠模式詳解 48
-3.1.5 工廠方法模式詳解 51
-3.1.6 Spring Bean工廠類詳解 55
---3.2 Spring AOP 57
-3.2.1 Spring AOP概述 57
+
+
+概念相同 ,IOC控制反轉 通過DI依賴注入實現
+
+原先需要實現創建對象及對象間的依賴,反轉給容器做
+
+聲明
+
+@Component  聲明bean
+
+@Service  服務層(業務邏輯)
+
+@Repository 數據訪物層(Dao)
+
+@Controller 控制層
+
+注入
+
+@Autiwired Spring提供 默認按類型 結合@Qualifier 使用名稱
+
+@Resource J2EE提供   默認按名稱裝配
+
+
+
+(( 單例模式 (( 工廠模式      我有!!!
+
+只有一個實例供全局使用
+
+傳統是new  
+
+
+
+--Spring AOP概述 
+
+面向切面 提高重用 開發效率
+
+日誌紀錄 性能統計 安全控制 事務處理 異常處理
+
 3.2.2 Spring AOP核心概念 57
-3.2.3 JDK動態代理實現日誌框架 58
-3.2.4 Spring AOP實現日誌框架 63
-3.2.5 靜態代理與動態代理模式 65
+
+就像一把刀在程式執行過程隨意插入拔出
+
+p58
+
+ 核心概念表3-1   advice 通知類型3-2
+
+--JDK動態代理實現日誌框架
+
+P63步驟
+
+--Spring AOP實現日誌框架  這可舉例 其他略提
+
+是使用動態代理
+
+--靜態代理與動態代理模式
+
+1個物件1個proxy
+
+1個proxy可供N個物件使用 隨意插入拔出
+
+
 
 <h1>MyBatis映射器與動態SQL </h1>
 
@@ -261,4 +310,4 @@ Quartz
 JPA Java持久化API , ORM規範  
 
 --All思考與練習QA                              
-													10分
+													
