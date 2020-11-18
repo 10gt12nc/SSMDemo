@@ -23,6 +23,16 @@
 ​	.java文件存于 src 中，.class 文件存于 target 中
 ​	因此，ClassPathXmlApplicationContext( ) 方法无法找到 applicationContext.xml
 
+
+
+src不是classpath, WEB-INF下面的classes和lib才是classpath，WEB-INF/ 是资源目录, 客户端不能直接访问。
+WEB-INF/classes目录存放src目录java文件编译之后的class文件，xml、properties等资源配置文件，这是一个定位资源的入口。引用classpath路径下的文件，只需在文件名前加classpath:
+4、lib和classes同属classpath，两者的访问优先级为: lib>classes。
+5、classpath 和 classpath* 区别：
+classpath：只会到你的class路径中查找找文件;
+
+classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找
+
 1-4. pom.xml中出現web.xml is missing and  failOnMissingWebXml  is set to true
 
 ```java
@@ -145,8 +155,33 @@ ApplicationContext context = new FileSystemXmlApplicationContext("WebRoot/WEB-IN
    ​
 
 
+<h1>---MyBatis---</h1>
+
+1.pom
+
+mysql-connector-java 驅動
+
+druid 連接池
+
+mybatis-spring 無縫整合
+
+2.jdbc.properties
+
+3.app-context.xml
+
+4.MySQL
 
 
+
+5.domain (物件)
+
+
+
+6.Dao
+
+
+
+7.Controller
 
 
 

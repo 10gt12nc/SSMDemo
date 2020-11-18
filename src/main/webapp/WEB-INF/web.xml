@@ -10,19 +10,15 @@
 	</welcome-file-list>
 
 	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
-
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
-				classpath*:app-context.xml
-			</param-value>
+		<param-value>classpath*:/app-context.xml</param-value>
 		<!-- classpath：只会到你的class路径中查找找文件; classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找. -->
 	</context-param>
 	<!--ContextLoaderListener 啟動Web容器 自動Spring ApplicationContext載入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
 	<!-- Spring end -->
 
 	<!-- Spring MVC DispatcherServlet -->

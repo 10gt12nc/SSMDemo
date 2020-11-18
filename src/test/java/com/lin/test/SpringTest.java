@@ -3,21 +3,22 @@ package com.lin.test;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class SpringTest {
 
+public class SpringTest extends BaseTest {
+	
+	
 	@Test
-	public void testSpring() {
-
-		ApplicationContext ac = new ClassPathXmlApplicationContext("app-context.xml");
-		SpringTest springTest = (SpringTest) ac.getBean("SpringTest");
-		springTest.sayHi();
+	void springTest() {
+		String path="classpath*:/app-context.xml";
+		ApplicationContext ac=new ClassPathXmlApplicationContext(path);
+		SpringTest st=(SpringTest) ac.getBean(SpringTest.class);
+		st.say();
 	}
 
-	public void sayHi() {
-		System.out.println("HI~~~~~~~~~");
+	void say() {
+		System.out.println("Hi~~~");
 
 	}
 
