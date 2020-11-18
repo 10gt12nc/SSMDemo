@@ -144,12 +144,13 @@
 		<!-- Mybatis end -->
 
 
-
 	</dependencies>
 
 	<build>
 		<finalName>SSMDemo</finalName>
+
 		<plugins>
+
 			<!-- compiler插件, 设定JDK版本 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -162,6 +163,7 @@
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<!--使用Maven Build 啟動專案，Goals那一欄填寫： tomcat:run -->
@@ -185,52 +187,25 @@
 				<artifactId>tomcat8-maven-plugin</artifactId>
 				<version>3.0-r1655215</version>
 			</plugin>
-			<!-- resource插件, 解決找不到xml檔案-->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<configuration>
-							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/resources</directory>
-									<includes>
-										<include>**/*.*</include>
-										<include>*.xml</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- 支援maven war/jar打包 -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+
+			<!-- resource插件, 解決找不到xml檔案 <plugin> <artifactId>maven-resources-plugin</artifactId> 
+				<executions> <execution> <configuration> <outputDirectory>${project.basedir}/src/main/resources</outputDirectory> 
+				<resources> <resource> <directory>src/main/resources</directory> <includes> 
+				<include>**/*.*</include> <include>*.xml</include> </includes> </resource> 
+				</resources> </configuration> </execution> </executions> </plugin> -->
+
+			<!-- 支援maven war/jar打包 <plugin> <groupId>org.springframework.boot</groupId> 
+				<artifactId>spring-boot-maven-plugin</artifactId> <configuration> <source>1.8</source> 
+				<target>1.8</target> <encoding>UTF-8</encoding> </configuration> </plugin> -->
 
 			<!-- web.xml is missing and <failOnMissingWebXml> is set to true解決 -->
 			<plugin>
-
 				<groupId>org.apache.maven.plugins</groupId>
-
 				<artifactId>maven-war-plugin</artifactId>
-
 				<version>2.6</version>
-
 				<configuration>
-
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-
 				</configuration>
-
 			</plugin>
 
 		</plugins>

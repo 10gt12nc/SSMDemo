@@ -19,7 +19,7 @@
 	<!-- ignore-unresolvable 忽略找不到的屬性 -->
 	<context:property-placeholder location="classpath:jdbc.properties"
 		ignore-unresolvable="true" />
-		
+
 	<!-- 數據源 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
@@ -28,26 +28,21 @@
 		<property name="username" value="${jdbc.username}"></property>
 		<property name="password" value="${jdbc.password}"></property>
 	</bean>
-	
-	<!-- sqlSessioFactory -->
+
+	<!-- sqlSessioFactory  创建SqlSession实例的工厂-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 注入 -->
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- 掃描 mapper需要的文件 -->
-		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+		<property name="mapperLocations" value="classpath*:mapper/*.xml"></property>
 	</bean>
 
-	<!-- sqlSession -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory" />
-	</bean>
 
-	<!--掃描所有@mybatisDao註解街口 -->
+	<!--掃描所有@mybatisDao註解接口 --><!-- value="sqlSession" -->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBesnName" value="sqlSessionFactory"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>   
 		<property name="basePackage" value="com.lin.dao"></property>
 	</bean>
 
-	<!-- -->
 
 </beans>

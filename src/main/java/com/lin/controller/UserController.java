@@ -21,8 +21,8 @@ public class UserController {
 	public String finAll(){
 		List<User> userlist= userservice.findAll();
 		for(User user:userlist){
-			System.out.println(user.getId());
-			System.out.println(user.getName());
+			System.out.println("Id:"+user.getId());
+			System.out.println("Name:"+user.getName());
 		}
 		return "hi";
 	}

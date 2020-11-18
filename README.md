@@ -1,4 +1,4 @@
-# SSMDemo
+# SSM(1)
 # ---Spring--- 
 
 1.建置Maven,pom相關配置
@@ -182,6 +182,30 @@ mybatis-spring 無縫整合
 
 
 7.Controller
+
+
+
+Error creating bean with name 'mapperScannerConfigurer' defined in URL [file:/C:/JAVA_dikailin/Git/back%20end/SSMDemo/SSMDemo/target/classes/app-context.xml]: 
+
+Error setting property values; 
+
+nested exception is org.springframework.beans.NotWritablePropertyException
+
+ Invalid property 'sqlSessionFactoryBesnName' of bean class [org.mybatis.spring.mapper.MapperScannerConfigurer]: Bean property 'sqlSessionFactoryBesnName' is not writable or has an invalid setter method. Did you mean 'sqlSessionFactoryBeanName'?
+
+
+
+字要打對
+
+引用 ref
+
+值 value
+
+
+
+
+
+<h1>SSM(2)</h1>
 
 
 
