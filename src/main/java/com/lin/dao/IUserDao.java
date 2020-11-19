@@ -9,6 +9,7 @@ import com.lin.domain.User;
 @Repository
 public interface IUserDao {
 
-	List<User> findAll();
+	//List<User> findAll();
+	List<User> findUserById(Integer id);
 	
 }

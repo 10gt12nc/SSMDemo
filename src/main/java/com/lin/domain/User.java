@@ -2,16 +2,20 @@ package com.lin.domain;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author dikaiLin
+ *
+ * 
+ */
 public class User implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String name;
-	private String password;
+	private String account;
 
 	public User() {
 		super();
@@ -33,17 +37,18 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getAccount() {
+		return account;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + "]";
+		return "User [id=" + id + ", name=" + name + ", account=" + account + "]";
 	}
+
 
 }

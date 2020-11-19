@@ -1,1 +1,1 @@
-SELECT * FROM test_user02.user;
+user_mood_praise_relSELECT * FROM test_user02.user;
