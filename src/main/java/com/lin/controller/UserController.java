@@ -7,23 +7,16 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.lin.domain.User;
 import com.lin.service.IUserService;
 
-@Controller
-@RequestMapping(value="/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 	@Resource
 	private IUserService userservice;
 	
-	@GetMapping("/findAll")
-	public String finAll(){
-		List<User> userlist= userservice.findAll();
-		for(User user:userlist){
-			System.out.println("Id:"+user.getId()+"|"+"Name:"+user.getName());
-		}
-		return "hi";
-	}
 
 }

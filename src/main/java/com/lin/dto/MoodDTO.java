@@ -12,6 +12,8 @@ public class MoodDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Integer id;
+
 	private String content;
 
 	private Integer userid;
@@ -19,6 +21,38 @@ public class MoodDTO implements Serializable {
 	private Timestamp publishtime;
 
 	private Integer praisenum;
+	
+	
+	//---
+	
+	private String username;
+	private String useraccount;
+	
+	
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUseraccount() {
+		return useraccount;
+	}
+
+	public void setUseraccount(String useraccount) {
+		this.useraccount = useraccount;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getContent() {
 		return content;

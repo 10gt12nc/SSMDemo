@@ -5,7 +5,7 @@
 <mapper namespace="com.lin.dao.IUserDao">
 
 	<sql id="user_Column">
-		id,name,password
+		id,name,account
 	</sql>
 
 	<resultMap type="com.lin.domain.User" id="userMap">
