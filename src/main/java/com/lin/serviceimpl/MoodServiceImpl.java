@@ -11,8 +11,10 @@ import org.springframework.util.CollectionUtils;
 
 import com.lin.dao.IMoodDao;
 import com.lin.dao.IUserDao;
+import com.lin.dao.IUserMoodPraiseRelDao;
 import com.lin.domain.Mood;
 import com.lin.domain.User;
+import com.lin.domain.UserMoodPraiseRel;
 import com.lin.dto.MoodDTO;
 import com.lin.service.IMoodService;
 
@@ -24,6 +26,9 @@ public class MoodServiceImpl implements IMoodService {
 
 	@Resource
 	private IUserDao userdao;
+	
+	@Resource
+	private IUserMoodPraiseRelDao umpreldao;
 
 	@Override
 	public List<MoodDTO> findAllMsg() {
@@ -55,6 +60,34 @@ public class MoodServiceImpl implements IMoodService {
 
 		return mooddtolist;
 
+	}
+
+	@Override
+	public boolean praiseMood(Integer userid, Integer moodid) {
+		// 保存關聯
+		UserMoodPraiseRel umpRel=new UserMoodPraiseRel();
+		umpRel.setUserid(userid);
+		umpRel.setMoodid(moodid);
+		umpreldao.save(umpRel);
+		
+		//更新
+		Mood mood= this.findById(moodid);
+		mood.setPraisenum(mood.getPraisenum()+1);
+		this.update(mood);
+		
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public boolean update(Mood mood) {
+		// TODO Auto-generated method stub
+		return mooddao.update(mood);
+	}
+
+	@Override
+	public Mood findById(Integer id) {
+		// TODO Auto-generated method stub
+		return mooddao.findById(id);
 	}
 
 }

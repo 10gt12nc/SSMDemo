@@ -20,7 +20,31 @@
 		select
 		<include refid="mood_Column" />
 		from mood
+
 	</select>
+
+	<select id="findById" resultMap="moodMap">
+		select
+		<include refid="mood_Column" />
+		from mood
+		<where>
+			id =#{id}
+		</where>
+	</select>
+
+
+	<update id="update">
+		update mood
+		<set>
+			<if test="mood.content !=unll and mood.content !='' ">
+				content=#{mood.content},
+			</if>
+			<if test="mood.praisenum !=unll and mood.praisenum !='' ">
+				praise_num=#{ood.praisenum}
+			</if>
+		</set>
+		where id=#{mood.id}
+	</update>
 
 
 

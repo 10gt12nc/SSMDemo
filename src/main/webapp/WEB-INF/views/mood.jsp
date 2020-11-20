@@ -31,8 +31,9 @@
 			<br>
 			<br>
 			<div style="margin-left: 350px">
-				<h1><a href="praise">爛</a></h1>
+				<h1><a id="praise" href="/mood/${mood.id}/praise?userid="${mood.userid}>爛</a></h1>
 			</div>
+			<div>--------------------</div>
 		</c:forEach>
 
 
