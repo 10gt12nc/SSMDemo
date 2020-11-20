@@ -4,17 +4,6 @@
 
 <mapper namespace="com.lin.dao.IUserMoodPraiseRelDao">
 
-	<sql id="mood_Column">
-		id,content,user_id,publish_time,praise_num
-	</sql>
-
-	<resultMap type="com.lin.domain.Mood" id="moodMap">
-		<id property="id" column="id" />
-		<result property="content" column="content" />
-		<result property="userid" column="user_id" />
-		<result property="publishtime" column="publish_time" />
-		<result property="praisenum" column="praise_num" />
-	</resultMap>
 <!-- useGeneratedKeys="true" keyProperty="id" 自動加一 -->
 	<insert id="save" parameterType="com.lin.domain.UserMoodPraiseRel" >
 		inster into user_mood_praise_rel(user_id, mood_id)
