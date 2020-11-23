@@ -33,20 +33,40 @@
 	</select>
 
 
-	<update id="update">
+	<update id="update" >
 		update mood
-		<set>
-			<if test="mood.content !=unll and mood.content !='' ">
+
+		<trim prefix="set" suffixOverrides=",">
+			<if test="mood.id !=null and mood.id !=''">
+				id =#{mood.id},
+			</if>
+			<if test="mood.content !=null and mood.content !='' ">
 				content=#{mood.content},
 			</if>
-			<if test="mood.praisenum !=unll and mood.praisenum !='' ">
-				praise_num=#{ood.praisenum}
+			<if test="mood.userid !=null and mood.userid !='' ">
+				user_id=#{mood.userid},
 			</if>
-		</set>
+			<if test="mood.publishtime !=null ">
+				publish_time=#{mood.publishtime},
+			</if>
+			<if test="mood.praisenum !=null and mood.praisenum !='' ">
+				praise_num=#{mood.praisenum},
+			</if>
+
+		</trim>
 		where id=#{mood.id}
 	</update>
 
-
+	<!-- 少打m 少寫mood.
+	unll打錯字 
+	
+	因為不更新的欄位，會被傳遞null到SQL中，引起異常。 這時就需要進行動態SQL拼接，如下，使用trim就是為了刪掉最後欄位的“,”。 
+		主要不用單獨寫SET了，因為set被包含在trim中了： 備註： 主要是解決：涉及到更新操作時，可能不需要對所有欄位更新，這時不需要更新的欄位需要保持原欄位資訊。（因為不更新的欄位，會被傳遞null到SQL中，引起異常。）
+		
+		mybatis 3.3.0中对于时间参数进行比较有的一个bug. 如果拿传入的时间类型参数与空字符串”进行对比判断则会引发异常. 所以在上面的代码中去该该判断, 只保留非空判断就正常了
+		
+		
+		 -->
 
 
 

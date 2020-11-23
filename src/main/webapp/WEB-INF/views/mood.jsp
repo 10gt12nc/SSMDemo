@@ -31,8 +31,10 @@
 			<br>
 			<br>
 			<div style="margin-left: 350px">
-				<h1><a id="praise" href="/mood/${mood.id}/praise?userid="${mood.userid}>爛</a></h1>
+				<h1><a id="praise" href="/mood/${mood.id}/praise?userid=1">爛</a></h1>
 			</div>
+			<!-- "要包對  ${mood.userid}-->
+			<!-- userid=1 先假設一個會員在使用-->
 			<div>--------------------</div>
 		</c:forEach>
 

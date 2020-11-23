@@ -70,7 +70,7 @@ public class MoodServiceImpl implements IMoodService {
 		umpRel.setMoodid(moodid);
 		umpreldao.save(umpRel);
 		
-		//更新
+		//更新爛數
 		Mood mood= this.findById(moodid);
 		mood.setPraisenum(mood.getPraisenum()+1);
 		this.update(mood);
