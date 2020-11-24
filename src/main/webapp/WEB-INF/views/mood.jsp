@@ -36,6 +36,12 @@
 			<!-- "要包對  ${mood.userid}-->
 			<!-- userid=1 先假設一個會員在使用-->
 			<div>--------------------</div>
+			<!-- +redis -->
+			<h1><a id="praiseForRedis" href="/mood/${mood.id}/praiseForRedis?userid=${mood.userid}"></a></h1>
+			
+			
+			
+			
 		</c:forEach>
 
 

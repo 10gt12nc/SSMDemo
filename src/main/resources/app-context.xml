@@ -43,6 +43,9 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>   
 		<property name="basePackage" value="com.lin.dao"></property>
 	</bean>
+	
+	
+	<import resource="spring-redis.xml"/>
 
 
 </beans>

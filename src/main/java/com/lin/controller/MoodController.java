@@ -1,6 +1,7 @@
 package com.lin.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -44,5 +45,37 @@ public class MoodController {
 		return "mood";// jsp頁面
 
 	}
+	
+
+	
+	//--------
+	
+	
+	@GetMapping(value = "/{moodid}/praiseForRedis")
+	private String praiseForRedis(
+			Model model, 
+			@PathVariable(value = "moodid") Integer moodid,
+			@RequestParam(value = "userid") Integer userid) {
+		
+		
+		
+		//使用亂數生成多個用戶ID
+		Random random=new Random();
+		userid =Integer.valueOf(random.nextInt(100)+1);//0(含)~n(不含)
+		
+		
+		
+		boolean ispraise=moodservice.praiseMoodForRedis(userid, moodid);
+		//查詢訊息
+		List<MoodDTO> mooddtolist=moodservice.findAllForRedis();
+		
+		model.addAttribute("moods", mooddtolist);
+		model.addAttribute("ispraise", ispraise);
+		
+		return "mood";// jsp頁面
+
+	}
+	
+	
 
 }
