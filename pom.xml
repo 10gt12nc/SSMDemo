@@ -146,7 +146,7 @@
 		</dependency>
 		<!-- Mybatis end -->
 
-		<!-- redis  spring-data-redis與jedis版本相容問題 -->
+		<!-- redis spring-data-redis與jedis版本相容問題 -->
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -154,25 +154,21 @@
 			<version>${spring.redis.version}</version>
 		</dependency>
 
+		<!-- spring2.X集成redis所需common-pool2，使用jedis必须依赖它 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 			<version>${commons.version}</version>
 		</dependency>
-
+		<!-- jedis客户端 -->
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<version>${jedis.version}</version>
 		</dependency>
-
-
-
-
-
-
-
-
+		
+		
+		
 	</dependencies>
 
 	<build>

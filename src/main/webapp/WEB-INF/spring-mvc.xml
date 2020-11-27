@@ -8,10 +8,11 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+<!-- handlerMapping 為每個請求找到合適的處理器handler不需要配置,因為spring在找不到handlerMapping的情況下會使用BeanNameUrlHandlerMapping -->
 
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.lin.controller" />
-	<!-- 註冊 -->
+	<!-- 加入注解驱动 -->
 	<mvc:annotation-driven />
 
 	<!-- 視圖解析器 控制層回傳的字串+前後綴=jsp -->
