@@ -30,10 +30,10 @@
 		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
 	</bean>
 
-	<!-- redis連接工厂 -->
+	<!-- redis連接工厂 -->    <!-- hostName 不能用host -->
 	<bean id="jedisConnectionFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		<property name="host" value="${redis.host}" />
+		<property name="hostName" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
 		<property name="password" value="${redis.password}" />
 		<property name="poolConfig" ref="jedisPoolConfig" />

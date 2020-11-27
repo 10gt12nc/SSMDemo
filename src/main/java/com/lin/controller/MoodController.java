@@ -57,7 +57,7 @@ public class MoodController {
 			@PathVariable(value = "moodid") Integer moodid,
 			@RequestParam(value = "userid") Integer userid) {
 		
-		
+		userid=null;
 		
 		//使用亂數生成多個用戶ID
 		Random random=new Random();

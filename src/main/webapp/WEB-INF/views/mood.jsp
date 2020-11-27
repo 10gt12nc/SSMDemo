@@ -20,14 +20,13 @@
 <table>
 
 </table>
-			用戶:<span>${mood.username}</span>
+			<h4>用戶:<span>${mood.username}</span></h4>
 			<br>
-			內容:<span>${mood.content}</span>
+			<h4>內容:<span>${mood.content}</span></h4>
 			<br>
-			發表時間:<span>${mood.publishtime}</span>
+			<h4>發表時間:<span>${mood.publishtime}</span></h4>
 			<br>
-			爛的數量:<span>${mood.praisenum}</span>
-			<br>
+			<h4>爛的數量:<span>${mood.praisenum}</span></h4>
 			<br>
 			<br>
 			<div style="margin-left: 350px">
@@ -37,7 +36,7 @@
 			<!-- userid=1 先假設一個會員在使用-->
 			<div>--------------------</div>
 			<!-- +redis -->
-			<h1><a id="praiseForRedis" href="/mood/${mood.id}/praiseForRedis?userid=${mood.userid}"></a></h1>
+			<h1><a id="praiseForRedis" href="/mood/${mood.id}/praiseForRedis?userid=1">爛(redis)</a></h1>
 			
 			
 			
