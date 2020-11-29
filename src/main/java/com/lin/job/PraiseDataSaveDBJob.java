@@ -16,6 +16,12 @@ import com.lin.domain.UserMoodPraiseRel;
 import com.lin.serviceimpl.MoodServiceImpl;
 import com.lin.serviceimpl.UserMoodPraiseRelServiceImpl;
 
+
+
+/**
+ * Quartz定時器
+ * 
+ */
 @Component
 @Configurable // = XML文件可被spring掃描 初始化
 @EnableScheduling //啟動"任務"的支持
