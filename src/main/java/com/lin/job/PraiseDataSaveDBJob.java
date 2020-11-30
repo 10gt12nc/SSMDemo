@@ -44,36 +44,40 @@ public class PraiseDataSaveDBJob {
 	@Scheduled(cron = "*/10 * * * * * *") 
 	private void savePraiseDataToDBJob2() {
 		
-		//1.redis緩存 所有被點爛的文章的id
-		Set<Integer> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
+		//1.redis緩存中,所有被點爛的文章的id (.members 值)
+		//第一層
+		Set<String> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
 		
 		if(CollectionUtils.isEmpty(moods)){
 			return;
 		}
-		
-		for(Integer moodId : moods) {
+		//第二層
+		for(String moodId : moods) {
 			
 			if(redisTemplate.opsForSet().members(moodId) == null) {
 				continue;
 			}else {
 				//2. 獲取所有按爛 ID
-				Set<Integer> userIds=redisTemplate.opsForSet().members(moodId); 
+				Set<String> userIds=redisTemplate.opsForSet().members(moodId); 
 				if(CollectionUtils.isEmpty(userIds)) {
 					return;
 				}else {
 					//3.循環保存 moodid 和 userid
-					for(Integer userId : userIds) {
+					
+					for(String userId : userIds) {
 						
 						UserMoodPraiseRel umpRel=new UserMoodPraiseRel();
 						
-						umpRel.setMoodid(moodId);
-						umpRel.setUserid(userId);
+						umpRel.setMoodid(Integer.valueOf(moodId));
+						umpRel.setUserid(Integer.valueOf(userId));
 						userMoodPraiseRelService.save(umpRel);
 					}
 					//4.更新
-					Mood mood=moodService.findById(moodId);
+					Mood mood=moodService.findById(Integer.valueOf(moodId));
 					//總數=redis+db
-					mood.setPraisenum(mood.getPraisenum()+redisTemplate.opsForSet().size(moodId).intValue());
+					Integer redisPraisenum=redisTemplate.opsForSet().size(moodId).intValue();
+
+					mood.setPraisenum(mood.getPraisenum()+redisPraisenum);
 					moodService.update(mood);
 					//5.清除緩存
 					redisTemplate.delete(moodId);

@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:c="http://www.springframework.org/schema/c"
-	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:core="http://activemq.apache.org/schema/core"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:core="http://activemq.apache.org/schema/core" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
 	xmlns:lang="http://www.springframework.org/schema/lang"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xmlns:oxm="http://www.springframework.org/schema/oxm"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:redis="http://www.springframework.org/schema/redis"
 	xmlns:repository="http://www.springframework.org/schema/data/repository"
-	xmlns:spring="http://camel.apache.org/schema/spring"
-	xmlns:stat="http://www.alibaba.com/schema/stat"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:v2.19="http://camel.apache.org/schema/spring/v2.19"
+	xmlns:spring="http://camel.apache.org/schema/spring" xmlns:stat="http://www.alibaba.com/schema/stat"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:v2.19="http://camel.apache.org/schema/spring/v2.19"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
@@ -42,52 +34,41 @@
 		http://camel.apache.org/schema/spring/v2.19 http://camel.apache.org/schema/spring/v2.19">
 
 
-	<!-- 連接工廠 -->
-	<bean id="" class="">
-		<description>JMS連接工廠</description>
-		<property name="">
-			<bean class="">
-				<property name="" value="" />
-				<property name="" value="" />
-				<property name="" value="" />
-			</bean>
-		</property>
-	</bean>
 
-	<!-- spring jmsTemplate 消息生產者 start -->
-	<bean id="" class="">
-		<description>隊列模式模型</description>
-		<!-- https://www.cnblogs.com/robinunix/articles/10932342.html -->
-		<constructor-arg ref=""/>
-		<property name="" value=""/>
-		<!-- true:Topic ; 默認或false:queue(隊列) -->
-		<!-- 堆疊(Stack) & 佇列(Queue) https://ithelp.ithome.com.tw/articles/10205260-->
-		<property name="" value=""/>
+   
 
-	</bean>
-	<!-- end -->
+    <!-- Spring提供的JMS工具類，它可以進行訊息傳送、接收等 -->  
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">  
+        <!-- 這個connectionFactory對應的是我們定義的Spring提供的那個ConnectionFactory物件 -->  
+        <property name="connectionFactory" ref="connectionFactory"/>  
+    </bean>  
 
-	<!-- 消息消費者 -->
-	<!-- Queue監聽器 -->
-	<jms:listener-container destination-type="queue"
-		container-type="default" connection-factory="connectionFactory"
-		acknowledge="auto">
-		<!-- 可有多個監聽器 -->
-		<jms:listener destination="" ref="" />
+    <!-- 真正可以產生Connection的ConnectionFactory，由對應的 JMS服務廠商提供-->  
+    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">  
+        <property name="brokerURL" value="tcp://localhost:61616"/>  
+    </bean>  
 
+    <!-- Spring用於管理真正的ConnectionFactory的ConnectionFactory -->  
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">  
+        <!-- 目標ConnectionFactory對應真實的可以產生JMS Connection的ConnectionFactory -->  
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>  
+    </bean>  
 
-	</jms:listener-container>
-	<!-- end -->
-
-
-
-
-
-
-
-
-
-
+    <!--這個是佇列目的地-->  
+    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">  
+        <constructor-arg>  
+            <value>queue</value>  
+        </constructor-arg>  
+    </bean>  
+    <!-- 訊息監聽器 -->  
+    <bean id="consumerMessageListener" class="com.tiantian.springintejms.listener.ConsumerMessageListener"/>  
+    <!-- 訊息監聽容器 -->  
+    <bean id="jmsContainer"  
+        class="org.springframework.jms.listener.DefaultMessageListenerContainer">  
+        <property name="connectionFactory" ref="connectionFactory" />  
+        <property name="destination" ref="queueDestination" />  
+        <property name="messageListener" ref="consumerMessageListener" />  
+    </bean>  
 
 
 

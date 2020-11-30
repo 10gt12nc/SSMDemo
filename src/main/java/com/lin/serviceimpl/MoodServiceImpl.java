@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.jms.Destination;
 
+import org.apache.activemq.command.ActiveMQObjectMessage;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +20,7 @@ import com.lin.domain.Mood;
 import com.lin.domain.User;
 import com.lin.domain.UserMoodPraiseRel;
 import com.lin.dto.MoodDTO;
+import com.lin.mq.MoodProducer;
 import com.lin.service.IMoodService;
 
 @Service
@@ -35,6 +39,16 @@ public class MoodServiceImpl implements IMoodService {
 	private RedisTemplate redisTemplate;
 
 	private static final String PRAISE_HASH_KEY = "springmv.mybatis.boot.mood.id.list.key";
+	
+	@Resource
+	private MoodProducer moodProducer;
+	
+	//列隊
+	private static Destination destination = new ActiveMQQueue("com.lin.mq.MoodConsumer"); 
+	
+	
+	
+	
 
 	@Override
 	public List<MoodDTO> findAllMsg() {
@@ -98,11 +112,26 @@ public class MoodServiceImpl implements IMoodService {
 
 	@Override
 	public boolean praiseMoodForRedis(Integer userid, Integer moodid) {
-		String useridstr = Integer.toString(userid);
-		String moodidstr = Integer.toString(moodid);
+		/*
+		 * 修改為異步處理
+		 * 
+		 */
+		
+		MoodDTO moodDTO= new MoodDTO();
+		moodDTO.setUserid(userid);
+		moodDTO.setId(moodid);
+		
+		//發送消息
+		moodProducer.sendMessage(destination, moodDTO);		
+		
+//-------------------------------------------------------------------		
+		
+		
+	//	String useridstr = Integer.toString(userid);
+	//	String moodidstr = Integer.toString(moodid);
 
 		// 存放set集合
-		redisTemplate.opsForSet().add(PRAISE_HASH_KEY, moodidstr);
+//		redisTemplate.opsForSet().add(PRAISE_HASH_KEY, moodidstr);
 
 		/*
 		 * add(Kkey,V... values)
@@ -113,7 +142,7 @@ public class MoodServiceImpl implements IMoodService {
 		 */
 
 		// 存放set
-		redisTemplate.opsForSet().add(moodidstr, useridstr); // 轉換bug
+//		redisTemplate.opsForSet().add(moodidstr, useridstr); // 轉換bug
 
 		/*
 		 * "KEY" ,"velue" [2][n] = {{"1", "X", "Y"...}, {"1", "Z", "H"...}};
@@ -142,7 +171,7 @@ public class MoodServiceImpl implements IMoodService {
 
 			Integer redisPraisenum=redisTemplate.opsForSet().size(Integer.toString(mood.getId())).intValue();
 			/*
-			 * size(Kkey) 变量中值的个数 型態 long members(Kkey) 获取变量中的值
+			 * size(Kkey) 变量中值的个数 ,型態 long, members(Kkey) 获取变量中的值
 			 */
 			mooddto.setPraisenum(mood.getPraisenum() + redisPraisenum);
 
