@@ -34,7 +34,7 @@
 		http://camel.apache.org/schema/spring/v2.19 http://camel.apache.org/schema/spring/v2.19">
 
 
-
+	<context:component-scan base-package="com.tiantian" />  
    
 
     <!-- Spring提供的JMS工具類，它可以進行訊息傳送、接收等 -->  
