@@ -44,7 +44,7 @@ public class MoodServiceImpl implements IMoodService {
 	private MoodProducer moodProducer;
 	
 	//列隊
-	private static Destination destination = new ActiveMQQueue("com.lin.mq.MoodConsumer"); 
+	private static Destination destination = new ActiveMQQueue("lin.queue.praise"); 
 	
 	
 	
