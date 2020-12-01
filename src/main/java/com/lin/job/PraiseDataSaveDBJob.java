@@ -4,7 +4,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.util.CollectionUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -25,6 +27,7 @@ import com.lin.serviceimpl.UserMoodPraiseRelServiceImpl;
 @Component
 @Configurable // = XML文件可被spring掃描 初始化
 @EnableScheduling //啟動"任務"的支持
+@Lazy(false)//對該Bean在啟動的時候就加載
 public class PraiseDataSaveDBJob {
 
 	@Resource
@@ -38,42 +41,49 @@ public class PraiseDataSaveDBJob {
 	@Resource
 	private MoodServiceImpl  moodService;
 	
+	private Logger log= Logger.getLogger(this.getClass());
+	
+	
 	//定時任務
-	//格式: 秒 分 時 日  月 周 年
-	//每10秒執行一次
-	@Scheduled(cron = "*/10 * * * * * *") 
+	// cron定時表達式 ,格式: 秒 分 時 日  月 周 年
+	//每30秒執行一次
+	@Scheduled(cron = "30 * * * * *") 
 	private void savePraiseDataToDBJob2() {
 		
 		//1.redis緩存中,所有被點爛的文章的id (.members 值)
 		//第一層
-		Set<String> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
+		Set<Integer> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
 		
+		log.info("------------------------->>>>-----------------------"+moods.toString()); //[2, 1, 1]
+	
 		if(CollectionUtils.isEmpty(moods)){
 			return;
 		}
 		//第二層
-		for(String moodId : moods) {
+		for(Integer moodId : moods) {
 			
 			if(redisTemplate.opsForSet().members(moodId) == null) {
 				continue;
 			}else {
 				//2. 獲取所有按爛 ID
-				Set<String> userIds=redisTemplate.opsForSet().members(moodId); 
+				Set<Integer> userIds=redisTemplate.opsForSet().members(moodId); 
 				if(CollectionUtils.isEmpty(userIds)) {
 					return;
 				}else {
 					//3.循環保存 moodid 和 userid
 					
-					for(String userId : userIds) {
+					for(Integer userId : userIds) {
 						
 						UserMoodPraiseRel umpRel=new UserMoodPraiseRel();
 						
-						umpRel.setMoodid(Integer.valueOf(moodId));
-						umpRel.setUserid(Integer.valueOf(userId));
+						umpRel.setMoodid(moodId);
+						umpRel.setUserid(userId);
+//						umpRel.setMoodid(Integer.valueOf(moodId));
+//						umpRel.setUserid(Integer.valueOf(userId));
 						userMoodPraiseRelService.save(umpRel);
 					}
 					//4.更新
-					Mood mood=moodService.findById(Integer.valueOf(moodId));
+					Mood mood=moodService.findById(moodId);
 					//總數=redis+db
 					Integer redisPraisenum=redisTemplate.opsForSet().size(moodId).intValue();
 

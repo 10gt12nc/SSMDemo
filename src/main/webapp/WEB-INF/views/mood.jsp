@@ -21,23 +21,26 @@
 
 </table>
 			<h4>用戶:<span>${mood.username}</span></h4>
-			<br>
+		
 			<h4>內容:<span>${mood.content}</span></h4>
-			<br>
+			
 			<h4>發表時間:<span>${mood.publishtime}</span></h4>
-			<br>
+			
 			<h4>爛的數量:<span>${mood.praisenum}</span></h4>
-			<br>
-			<br>
+			
+
+			<!-- 
 			<div style="margin-left: 350px">
 				<h1><a id="praise" href="/mood/${mood.id}/praise?userid=1">爛</a></h1>
 			</div>
-			<!-- "要包對  ${mood.userid}-->
-			<!-- userid=1 先假設一個會員在使用-->
-			<div>--------------------</div>
+			"要包對  ${mood.userid}
+			 userid=1 先假設一個會員在使用
+			 -->
 			<!-- +redis -->
-			<h1><a id="praiseForRedis" href="/mood/${mood.id}/praiseForRedis?userid=1">爛(redis)</a></h1>
-			
+			<div style="margin-left: 350px">
+				<h1><a id="praiseForRedis" href="/mood/${mood.id}/praiseForRedis?userid=1">爛</a></h1>
+			</div>
+			<div>--------------------</div>
 			
 			
 			
