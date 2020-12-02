@@ -3,17 +3,9 @@ package com.lin.domain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * 
- * @author dikaiLin
- *
- * 
- */
+
 public class Mood implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;

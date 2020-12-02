@@ -110,12 +110,14 @@ public class MoodServiceImpl implements IMoodService {
 		return mooddao.findById(id);
 	}
 
-	@Override
-	public boolean praiseMoodForRedis(Integer userid, Integer moodid) {
+	
 		/*
 		 * 修改為異步處理
 		 * 
 		 */
+	@Override
+	public boolean praiseMoodForRedis(Integer userid, Integer moodid) {
+		
 		
 		MoodDTO moodDTO= new MoodDTO();
 		moodDTO.setUserid(userid);
@@ -124,31 +126,6 @@ public class MoodServiceImpl implements IMoodService {
 		//發送消息
 		moodProducer.sendMessage(destination, moodDTO);		
 		
-//-------------------------------------------------------------------		
-		
-		
-	//	String useridstr = Integer.toString(userid);
-	//	String moodidstr = Integer.toString(moodid);
-
-		// 存放set集合
-//		redisTemplate.opsForSet().add(PRAISE_HASH_KEY, moodidstr);
-
-		/*
-		 * add(Kkey,V... values)
-		 * 
-		 * "KEY" ,"velue" "1" = ["1", "2" ]
-		 * 
-		 * 
-		 */
-
-		// 存放set
-//		redisTemplate.opsForSet().add(moodidstr, useridstr); // 轉換bug
-
-		/*
-		 * "KEY" ,"velue" [2][n] = {{"1", "X", "Y"...}, {"1", "Z", "H"...}};
-		 * 
-		 */
-
 		return false;
 	}
 
@@ -166,27 +143,18 @@ public class MoodServiceImpl implements IMoodService {
 			mooddto.setContent(mood.getContent());
 			mooddto.setUserid(mood.getUserid());
 			mooddto.setPublishtime(mood.getPublishtime());
-			// 爛總數= DB+redis
-// 轉換bug
-
-			Integer redisPraisenum=redisTemplate.opsForSet().size(Integer.toString(mood.getId())).intValue();
-			/*
-			 * size(Kkey) 变量中值的个数 ,型態 long, members(Kkey) 获取变量中的值
+			/*爛的總數= DB+redis
+			 * size() 变量中值的"个数",型態 long ; members() 获取变量中的"值"
 			 */
+			Integer redisPraisenum=redisTemplate.opsForSet().size(Integer.toString(mood.getId())).intValue();
 			mooddto.setPraisenum(mood.getPraisenum() + redisPraisenum);
-
-			// https://blog.csdn.net/suo082407128/article/details/86231681
-
 			// id查用戶
 			User user = userdao.findUserById(mood.getId());
 			mooddto.setUsername(user.getName());
 			mooddto.setUseraccount(user.getAccount());
-
 			mooddtolist.add(mooddto);
 		}
-
 		return mooddtolist;
-
 	}
 
 }

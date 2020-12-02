@@ -18,8 +18,8 @@
 	<!-- 配置文件 -->
 	<context:property-placeholder location="classpath:redis.properties" />
 
-	<!--（1）如果你有多个数据源需要通过<context:property-placeholder管理，且不愿意放在一个配置文件里，那么一定要加上ignore-unresolvable=“true" -->
-	<!--（2）注意新版的（具体从哪个版本开始不清楚，有兴趣可以查一下）JedisPoolConfig的property name，不是maxActive而是maxTotal，而且没有maxWait属性，建议看一下Jedis源码。 -->
+	<!--有多个数据源需要通过<context:property-placeholder管理，不在一个配置文件里，一定要加上ignore-unresolvable=“true" -->
+	<!--注意新版的JedisPoolConfig的property name，不是maxActive而是maxTotal，而且没有maxWait属性。 -->
 
 	<!-- 連接池 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -30,33 +30,24 @@
 		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
 	</bean>
 
-	<!-- redis連接工厂 -->    <!-- hostName 不能用host -->
-	<bean id="jedisConnectionFactory"
-		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+	<!-- redis連接工厂   hostName 不能用host -->
+	<bean id="jedisConnectionFactory" 
+		  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<property name="hostName" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
 		<property name="password" value="${redis.password}" />
 		<property name="poolConfig" ref="jedisPoolConfig" />
-
 	</bean>
 
-
 	<!-- Jedis模板配置 -->
-	<!-- redis template definition p表示对该bean里面的属性进行注入，格式为p:属性名=注入的对象 效果与在bean里面使用<property>标签一样 -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
-		<!-- <property name="connectionFactory" ref="connectionFactory" /> 如果不配置Serializer，那么存储的时候智能使用String，如果用Student类型存储，那么会提示错误User 
-			can't cast to String！！！ -->
-		<!-- 序列化方式 建议key/hashKey采用StringRedisSerializer。 -->
-		<!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to 
-			String！！！ -->
+		<!-- 如果不配置Serializer，那么存储时預設使用String，如果用存储物件，会错误User can't cast to String  -->
 		<property name="keySerializer">
-			<bean
-				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
 		</property>
 		<property name="valueSerializer">
-			<bean
-				class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 		</property>
 	</bean>
 

@@ -2,12 +2,6 @@ package com.lin.domain;
 
 import java.io.Serializable;
 
-/**
- * 
- * @author dikaiLin
- *
- * 
- */
 public class User implements Serializable {
 
 

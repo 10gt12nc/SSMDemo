@@ -52,41 +52,49 @@ public class PraiseDataSaveDBJob {
 		
 		//1.redis緩存中,所有被點爛的文章的id (.members 值)
 		//第一層
-		Set<Integer> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
+		Set<String> moods=redisTemplate.opsForSet().members(PRAISE_HASH_KEY);
 		
-		log.info("------------------------->>>>-----------------------"+moods.toString()); //[2, 1, 1]
+		log.info("--第一層--redis緩存中,所有被點爛的文章的id-->>moods>>--"+moods.toString()); //[2, 1]
 	
 		if(CollectionUtils.isEmpty(moods)){
 			return;
 		}
 		//第二層
-		for(Integer moodId : moods) {
-			
+		for(String moodId : moods) {
+			log.info("--第二層--被按的按文章-->>moodId>>--"+moodId.toString());
 			if(redisTemplate.opsForSet().members(moodId) == null) {
 				continue;
 			}else {
 				//2. 獲取所有按爛 ID
-				Set<Integer> userIds=redisTemplate.opsForSet().members(moodId); 
+				Set<String> userIds=redisTemplate.opsForSet().members(moodId); 
+				
+				log.info("--按文章的用戶-->>userIds>>--"+userIds.toString());
+				
 				if(CollectionUtils.isEmpty(userIds)) {
+					log.info("---空--->>return>>-----");
 					return;
 				}else {
 					//3.循環保存 moodid 和 userid
 					
-					for(Integer userId : userIds) {
+					for(String userId : userIds) {
 						
 						UserMoodPraiseRel umpRel=new UserMoodPraiseRel();
 						
-						umpRel.setMoodid(moodId);
-						umpRel.setUserid(userId);
-//						umpRel.setMoodid(Integer.valueOf(moodId));
-//						umpRel.setUserid(Integer.valueOf(userId));
+//						umpRel.setMoodid(moodId);
+//						umpRel.setUserid(userId);
+						umpRel.setMoodid(Integer.valueOf(moodId));
+						umpRel.setUserid(Integer.valueOf(userId));
+						
+						log.info("---save用戶與文章關聯表--->>umpRel>>----"+umpRel.toString());
 						userMoodPraiseRelService.save(umpRel);
 					}
 					//4.更新
-					Mood mood=moodService.findById(moodId);
+					
+					Mood mood=moodService.findById(Integer.valueOf(moodId));
+					log.info("--findById--->>mood>>-----------------------"+mood.toString());
 					//總數=redis+db
 					Integer redisPraisenum=redisTemplate.opsForSet().size(moodId).intValue();
-
+					log.info("----總數=redis+db---->>redisPraisenum>>----"+redisPraisenum.toString());
 					mood.setPraisenum(mood.getPraisenum()+redisPraisenum);
 					moodService.update(mood);
 					//5.清除緩存

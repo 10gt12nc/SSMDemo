@@ -22,26 +22,26 @@ public class MoodController {
 	@Resource
 	private IMoodService moodservice;
 
+	// Model封裝了應用程序的數據和一般他們會組成的POJO。
 	@RequestMapping("/findAll")
 	public String findAll(Model model) {
-		// Model封裝了應用程序的數據和一般他們會組成的POJO。
 		List<MoodDTO> mooddtolist = moodservice.findAllMsg();
 		model.addAttribute("moods", mooddtolist);
 		return "mood";// jsp頁面
-
 	}
 
+	//--------------------------------------------
+	
+	//傳統按爛
 	@GetMapping(value = "/{moodid}/praise")
-	private String praise(Model model, @PathVariable(value = "moodid") Integer moodid,
+	private String praise(Model model, 
+			@PathVariable(value = "moodid") Integer moodid,
 			@RequestParam(value = "userid") Integer userid) {
 		
 		boolean ispraise=moodservice.praiseMood(userid, moodid);
-		
 		List<MoodDTO> mooddtolist=moodservice.findAllMsg();
-		
 		model.addAttribute("moods", mooddtolist);
 		model.addAttribute("ispraise", ispraise);
-		
 		return "mood";// jsp頁面
 
 	}
@@ -56,19 +56,14 @@ public class MoodController {
 			Model model, 
 			@PathVariable(value = "moodid") Integer moodid,
 			@RequestParam(value = "userid") Integer userid) {
-		
+	
 		userid=null;
-		
 		//使用亂數生成多個用戶ID
 		Random random=new Random();
 		userid =Integer.valueOf(random.nextInt(100)+1);//0(含)~n(不含)
-		
-		
-		
 		boolean ispraise=moodservice.praiseMoodForRedis(userid, moodid);
 		//查詢訊息
 		List<MoodDTO> mooddtolist=moodservice.findAllForRedis();
-		
 		model.addAttribute("moods", mooddtolist);
 		model.addAttribute("ispraise", ispraise);
 		

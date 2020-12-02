@@ -7,9 +7,6 @@ import com.lin.domain.Mood;
 
 public class MoodDTO implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
@@ -22,14 +19,10 @@ public class MoodDTO implements Serializable {
 
 	private Integer praisenum;
 	
-	
-	//---
-	
 	private String username;
+	
 	private String useraccount;
 	
-	
-
 	public String getUsername() {
 		return username;
 	}

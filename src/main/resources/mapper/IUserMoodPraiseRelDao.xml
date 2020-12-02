@@ -4,12 +4,12 @@
 
 <mapper namespace="com.lin.dao.IUserMoodPraiseRelDao">
 
-	
-<!-- useGeneratedKeys="true" keyProperty="id" 自動加一 -->
-	<insert id="save" parameterType="com.lin.domain.UserMoodPraiseRel"  useGeneratedKeys="true" keyProperty="id" >
+	<!-- useGeneratedKeys="true" keyProperty="id" : id自動加1 -->
+	<!-- 在建表時有用自動增長,這不用加 -->
+	<insert id="save" parameterType="com.lin.domain.UserMoodPraiseRel">
 		insert into user_mood_praise_rel(user_id, mood_id)
 		value (#{userMoodPraiseRel.userid},#{userMoodPraiseRel.moodid})
-		<!-- @Param("userMoodPraiseRel") 來的 -->
+	
 	</insert>
 
 
