@@ -37,7 +37,7 @@ public class MoodServiceImpl implements IMoodService {
 
 	@Resource
 	private RedisTemplate redisTemplate;
-
+												//命名規範 : 項目名+模組名+具體內容
 	private static final String PRAISE_HASH_KEY = "springmv.mybatis.boot.mood.id.list.key";
 	
 	@Resource
