@@ -15,7 +15,7 @@
 	<!-- 加入注解驱动 -->
 	<mvc:annotation-driven />
 
-	<!-- 視圖解析器 控制層回傳的字串+前後綴=jsp -->
+	<!-- 視圖解析器 : 控制層回傳的字串+前後綴=jsp -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
