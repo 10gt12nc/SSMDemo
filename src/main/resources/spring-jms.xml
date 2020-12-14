@@ -51,15 +51,26 @@
 			</bean>
 		</property>
 		<property name="sessionCacheSize" value="100"></property>
+				<!-- 
+						快取數量 
+-->
 	</bean>
 
 	<!-- 消息生產者 ,可以進行訊息傳送、接收等 -->
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<description>隊列模式模型</description>
 		<constructor-arg ref="connectionFactory" />
-		<property name="receiveTimeout" value="10000" />
+		<property name="receiveTimeout" value="10000" />	
+		<!-- 
+設定的時間內還沒有受到回應，就會拋出SocketException異常。
+-->
 		<!-- true:Topic ; 默認或false:queue(隊列) -->
 		<property name="pubSubDomain" value="false" />
+		<!-- true:發布訂閱模式 false:點對點模式
+			  點對點：Queue，不可重複消費:對一個消息而言，只會有一個消費者可以消費。
+			  發布/訂閱：Topic，可以重複消費:消息會被所有訂閱者消費
+
+-->
 
 	</bean>
 
