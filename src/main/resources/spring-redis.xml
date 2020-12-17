@@ -42,13 +42,6 @@
 	<!-- Jedis模板配置 -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
-		<!-- 如果不配置Serializer，那么存储时預設使用String，如果用存储物件，会错误User can't cast to String  -->
-		<property name="keySerializer">
-			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
-		</property>
-		<property name="valueSerializer">
-			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-		</property>
 	</bean>
 
 
